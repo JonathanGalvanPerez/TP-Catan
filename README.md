@@ -4,10 +4,10 @@ Reinterpretación del juego Catan desarrollada en Java 21 como proyecto Maven, a
 
 ## Integrantes (Grupo Cyberlek)
 
-* **Nombre Apellido** - Padrón: 000000
-* **Nombre Apellido** - Padrón: 000000
-* **Nombre Apellido** - Padrón: 000000
-* **Nombre Apellido** - Padrón: 000000
+* **Ian Alabornoz**
+* **Jonathan Galvan Perez**
+* **Osvaldo Grasso**
+* **Tomas Cilia**
 
 ---
 
@@ -24,3 +24,27 @@ Para descargar las dependencias y compilar el proyecto desde cero, ejecuta en la
 
 ```bash
 mvn clean compile
+```
+
+## Ejecución
+Para ejecutar el juego una vez fue compilado:
+```bash
+mvn exec:java -Dexec.mainClass="fiuba.cyberlek.App"
+```
+
+## Pruebas
+Para ejecutar las pruebas unitarias:
+```bash
+mvn test
+```
+
+## Formato
+Para verificar que el código fuente cumple con el formato:
+```bash
+mvn spotless:check
+```
+
+Para aplicar el formato de código definido en el proyecto:
+```bash
+mvn spotless:apply
+```
