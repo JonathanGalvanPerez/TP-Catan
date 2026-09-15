@@ -1,0 +1,31 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ "main", "tp-1" ]
+  pull_request:
+    branches: [ "main", "tp-1" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Compilar código
+        run: mvn compile --batch-mode
+
+      - name: Verificar formato de código (Spotless)
+        run: mvn spotless:check --batch-mode
+
+      - name: Ejecutar pruebas unitarias
+        run: mvn test --batch-mode
