@@ -1,3 +1,3 @@
 package fiuba.cyberlek.model;
 
-public class modelVertice {}
+public class ModelVertice {}
