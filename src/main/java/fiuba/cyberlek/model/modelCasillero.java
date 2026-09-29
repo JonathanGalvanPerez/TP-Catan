@@ -7,13 +7,13 @@ public class modelCasillero {
     private int NumeroCasillero;
     private Boolean tieneSaqueador;
     private modelTerreno terreno;
-    private List<modelVertice> Vertices;
+    private List<modelVertice> vertices;
     private List<modelVerticeConstruido> verticesConstruidos;
 
     public modelCasillero(int numeroFarmeo, modelTerreno terreno, List<modelVertice> vertices) {
         this.NumeroCasillero = numeroFarmeo;
         this.tieneSaqueador = false;
-        this.Vertices = vertices;
+        this.vertices = vertices;
     }
 
     public void intentarFarmear(int NumeroDado) {
