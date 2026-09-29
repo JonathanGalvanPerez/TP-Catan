@@ -35,7 +35,7 @@ public class CasilleroModel {
     verticesConstruidos.add(vertice);
   }
 
-  private void notificarVertices(RecursoEnum recurso) {
+  private void notificarVertices(Recurso recurso) {
     for (VerticeConstruidoModel vertice : verticesConstruidos) {
       vertice.recibirRecurso(recurso);
     }

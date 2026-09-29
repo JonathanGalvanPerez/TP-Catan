@@ -2,5 +2,5 @@ package fiuba.cyberlek.model;
 
 interface VerticeConstruidoModel {
 
-  void recibirRecurso(RecursoEnum recurso);
+  void recibirRecurso(Recurso recurso);
 }

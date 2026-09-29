@@ -3,7 +3,7 @@ package fiuba.cyberlek.model;
 public class CanteraModel implements TerrenoModel {
 
   @Override
-  public RecursoEnum generarRecurso() {
-    return RecursoEnum.ARCILLA;
+  public Recurso generarRecurso() {
+    return Recurso.ARCILLA;
   }
 }

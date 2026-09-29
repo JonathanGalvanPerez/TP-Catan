@@ -11,14 +11,14 @@ import java.util.Optional;
 public class JugadorModel {
 
   private final String nombre;
-  private final Map<RecursoEnum, Integer> recursos = new EnumMap<>(RecursoEnum.class);
+  private final Map<Recurso, Integer> recursos = new EnumMap<>(Recurso.class);
 
   public JugadorModel(String nombre) {
     this.nombre = Objects.requireNonNull(nombre, "nombre");
     if (nombre.isBlank()) {
       throw new IllegalArgumentException("El nombre no puede estar vacio");
     }
-    for (RecursoEnum r : RecursoEnum.values()) {
+    for (Recurso r : Recurso.values()) {
       recursos.put(r, 0);
     }
   }
@@ -31,7 +31,7 @@ public class JugadorModel {
   // Comandos
   // ---------------------------------------------------------------------
 
-  public void agregar(RecursoEnum recurso, int cantidad) {
+  public void agregar(Recurso recurso, int cantidad) {
     Objects.requireNonNull(recurso, "recurso");
     if (cantidad <= 0) {
       return;
@@ -43,9 +43,9 @@ public class JugadorModel {
    * Intenta pagar un costo completo de forma ATOMICA. Si no alcanza, NO modifica ningun recurso y
    * devuelve false.
    */
-  public boolean intentarPagar(Map<RecursoEnum, Integer> costo) {
+  public boolean intentarPagar(Map<Recurso, Integer> costo) {
     Objects.requireNonNull(costo, "costo");
-    for (Map.Entry<RecursoEnum, Integer> entry : costo.entrySet()) {
+    for (Map.Entry<Recurso, Integer> entry : costo.entrySet()) {
       if (get(entry.getKey()) < entry.getValue()) {
         return false;
       }
@@ -64,7 +64,7 @@ public class JugadorModel {
       return 0;
     }
     int descartadas = 0;
-    for (RecursoEnum r : RecursoEnum.values()) {
+    for (Recurso r : Recurso.values()) {
       while (descartadas < cantidad && get(r) > 0) {
         recursos.merge(r, -1, Integer::sum);
         descartadas++;
@@ -80,9 +80,9 @@ public class JugadorModel {
    * Quita UNA carta al azar y la devuelve. Devuelve Optional.empty()} si no tenia cartas: es un
    * caso normal, no un error. Usado por el Saqueador al robar.
    */
-  public Optional<RecursoEnum> quitarCartaAlAzar(RandomizadorModel randomizador) {
+  public Optional<Recurso> quitarCartaAlAzar(RandomizadorModel randomizador) {
     Objects.requireNonNull(randomizador, "randomizador");
-    List<RecursoEnum> cartas = new ArrayList<>(totalCartas());
+    List<Recurso> cartas = new ArrayList<>(totalCartas());
     recursos.forEach(
         (r, c) -> {
           for (int i = 0; i < c; i++) {
@@ -102,7 +102,7 @@ public class JugadorModel {
   // Consultas
   // ---------------------------------------------------------------------
 
-  public int get(RecursoEnum recurso) {
+  public int get(Recurso recurso) {
     Objects.requireNonNull(recurso, "recurso");
     return recursos.getOrDefault(recurso, 0);
   }
@@ -115,7 +115,7 @@ public class JugadorModel {
    * Vista inmutable de las cartas en mano. SOLO para mostrar por consola. NO usar para tomar
    * decisiones de dominio (para eso esta {@link #intentarPagar} u operaciones especificas).
    */
-  public Map<RecursoEnum, Integer> getRecursos() {
+  public Map<Recurso, Integer> getRecursos() {
     return Collections.unmodifiableMap(recursos);
   }
 }

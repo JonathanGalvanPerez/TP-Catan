@@ -14,7 +14,7 @@ public class BancoModel {
   private int tasa = TASA_DEFAULT;
   private int turnosRestantesTasaModificada = 0;
 
-  public boolean intercambiar(JugadorModel jugador, RecursoEnum entrega, RecursoEnum recibe) {
+  public boolean intercambiar(JugadorModel jugador, Recurso entrega, Recurso recibe) {
     Objects.requireNonNull(jugador, "jugador");
     Objects.requireNonNull(entrega, "entrega");
     Objects.requireNonNull(recibe, "recibe");
