@@ -4,5 +4,5 @@ import java.util.List;
 
 public class modelTablero {
 
-    private List<modelCasillero> Casilleros;
+  private List<modelCasillero> Casilleros;
 }

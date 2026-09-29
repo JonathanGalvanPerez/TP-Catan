@@ -1,5 +1,3 @@
 package fiuba.cyberlek.model;
 
-public class modelConstruccion {
-
-}
+public class modelConstruccion {}
