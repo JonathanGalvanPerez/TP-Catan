@@ -2,15 +2,15 @@ package fiuba.cyberlek.model;
 
 import java.util.List;
 
-public class ModelCasillero {
+public class CasilleroModel {
 
   private int NumeroCasillero;
   private Boolean tieneSaqueador;
-  private ModelTerreno terreno;
-  private List<ModelVertice> vertices;
-  private List<ModelVerticeConstruido> verticesConstruidos;
+  private TerrenoModel terreno;
+  private List<VerticeModel> vertices;
+  private List<VerticeConstruidoModel> verticesConstruidos;
 
-  public ModelCasillero(int numeroFarmeo, ModelTerreno terreno, List<ModelVertice> vertices) {
+  public CasilleroModel(int numeroFarmeo, TerrenoModel terreno, List<VerticeModel> vertices) {
     this.NumeroCasillero = numeroFarmeo;
     this.tieneSaqueador = false;
     this.vertices = vertices;
@@ -22,13 +22,13 @@ public class ModelCasillero {
     }
   }
 
-  public void desuscribirVertice(ModelVerticeConstruido vertice) {
+  public void desuscribirVertice(VerticeConstruidoModel vertice) {
     if (verticesConstruidos.contains(vertice)) {
       verticesConstruidos.remove(vertice);
     }
   }
 
-  public void suscribirVertice(ModelVerticeConstruido vertice) {
+  public void suscribirVertice(VerticeConstruidoModel vertice) {
     if (verticesConstruidos.contains(vertice)) {
       return;
     }
@@ -36,7 +36,7 @@ public class ModelCasillero {
   }
 
   private void notificarVertices(Recurso recurso) {
-    for (ModelVerticeConstruido vertice : verticesConstruidos) {
+    for (VerticeConstruidoModel vertice : verticesConstruidos) {
       vertice.recibirRecurso(recurso);
     }
   }

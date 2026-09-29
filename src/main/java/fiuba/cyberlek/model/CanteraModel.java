@@ -1,9 +1,9 @@
 package fiuba.cyberlek.model;
 
-public class ModelCultivo implements ModelTerreno {
+public class CanteraModel implements TerrenoModel {
 
   @Override
   public Recurso generarRecurso() {
-    return Recurso.Trigo;
+    return Recurso.ARCILLA;
   }
 }

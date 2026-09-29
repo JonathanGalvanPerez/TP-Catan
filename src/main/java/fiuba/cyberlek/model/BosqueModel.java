@@ -1,9 +1,9 @@
 package fiuba.cyberlek.model;
 
-public class ModelMontania implements ModelTerreno {
+public class BosqueModel implements TerrenoModel {
 
   @Override
   public Recurso generarRecurso() {
-    return Recurso.Mineral;
+    return Recurso.MADERA;
   }
 }

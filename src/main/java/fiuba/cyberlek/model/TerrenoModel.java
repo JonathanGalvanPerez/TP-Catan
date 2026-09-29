@@ -1,6 +1,6 @@
 package fiuba.cyberlek.model;
 
-public interface ModelTerreno {
+public interface TerrenoModel {
 
   public Recurso generarRecurso();
 }
