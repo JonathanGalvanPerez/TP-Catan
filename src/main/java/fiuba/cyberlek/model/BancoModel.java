@@ -7,14 +7,14 @@ import java.util.Objects;
 // Realiza el intercambio y administra la tasa (que puede modificarse
 // temporalmente por eventos climaticos).
 
-public class Banco {
+public class BancoModel {
 
   public static final int TASA_DEFAULT = 4;
 
   private int tasa = TASA_DEFAULT;
   private int turnosRestantesTasaModificada = 0;
 
-  public boolean intercambiar(Jugador jugador, Recurso entrega, Recurso recibe) {
+  public boolean intercambiar(JugadorModel jugador, RecursoEnum entrega, RecursoEnum recibe) {
     Objects.requireNonNull(jugador, "jugador");
     Objects.requireNonNull(entrega, "entrega");
     Objects.requireNonNull(recibe, "recibe");

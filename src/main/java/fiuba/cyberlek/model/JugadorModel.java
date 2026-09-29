@@ -8,17 +8,17 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-public class Jugador {
+public class JugadorModel {
 
   private final String nombre;
-  private final Map<Recurso, Integer> recursos = new EnumMap<>(Recurso.class);
+  private final Map<RecursoEnum, Integer> recursos = new EnumMap<>(RecursoEnum.class);
 
-  public Jugador(String nombre) {
+  public JugadorModel(String nombre) {
     this.nombre = Objects.requireNonNull(nombre, "nombre");
     if (nombre.isBlank()) {
       throw new IllegalArgumentException("El nombre no puede estar vacio");
     }
-    for (Recurso r : Recurso.values()) {
+    for (RecursoEnum r : RecursoEnum.values()) {
       recursos.put(r, 0);
     }
   }
@@ -31,7 +31,7 @@ public class Jugador {
   // Comandos
   // ---------------------------------------------------------------------
 
-  public void agregar(Recurso recurso, int cantidad) {
+  public void agregar(RecursoEnum recurso, int cantidad) {
     Objects.requireNonNull(recurso, "recurso");
     if (cantidad <= 0) {
       return;
@@ -43,9 +43,9 @@ public class Jugador {
    * Intenta pagar un costo completo de forma ATOMICA. Si no alcanza, NO modifica ningun recurso y
    * devuelve false.
    */
-  public boolean intentarPagar(Map<Recurso, Integer> costo) {
+  public boolean intentarPagar(Map<RecursoEnum, Integer> costo) {
     Objects.requireNonNull(costo, "costo");
-    for (Map.Entry<Recurso, Integer> entry : costo.entrySet()) {
+    for (Map.Entry<RecursoEnum, Integer> entry : costo.entrySet()) {
       if (get(entry.getKey()) < entry.getValue()) {
         return false;
       }
@@ -64,7 +64,7 @@ public class Jugador {
       return 0;
     }
     int descartadas = 0;
-    for (Recurso r : Recurso.values()) {
+    for (RecursoEnum r : RecursoEnum.values()) {
       while (descartadas < cantidad && get(r) > 0) {
         recursos.merge(r, -1, Integer::sum);
         descartadas++;
@@ -80,9 +80,9 @@ public class Jugador {
    * Quita UNA carta al azar y la devuelve. Devuelve Optional.empty()} si no tenia cartas: es un
    * caso normal, no un error. Usado por el Saqueador al robar.
    */
-  public Optional<Recurso> quitarCartaAlAzar(Randomizador randomizador) {
+  public Optional<RecursoEnum> quitarCartaAlAzar(RandomizadorModel randomizador) {
     Objects.requireNonNull(randomizador, "randomizador");
-    List<Recurso> cartas = new ArrayList<>(totalCartas());
+    List<RecursoEnum> cartas = new ArrayList<>(totalCartas());
     recursos.forEach(
         (r, c) -> {
           for (int i = 0; i < c; i++) {
@@ -102,7 +102,7 @@ public class Jugador {
   // Consultas
   // ---------------------------------------------------------------------
 
-  public int get(Recurso recurso) {
+  public int get(RecursoEnum recurso) {
     Objects.requireNonNull(recurso, "recurso");
     return recursos.getOrDefault(recurso, 0);
   }
@@ -115,7 +115,7 @@ public class Jugador {
    * Vista inmutable de las cartas en mano. SOLO para mostrar por consola. NO usar para tomar
    * decisiones de dominio (para eso esta {@link #intentarPagar} u operaciones especificas).
    */
-  public Map<Recurso, Integer> getRecursos() {
+  public Map<RecursoEnum, Integer> getRecursos() {
     return Collections.unmodifiableMap(recursos);
   }
 }

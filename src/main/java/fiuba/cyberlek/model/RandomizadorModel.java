@@ -4,17 +4,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-public class Randomizador {
+public class RandomizadorModel {
 
   private final Random random;
   private final int cantidadDados;
   private final int carasPorDado;
 
-  public Randomizador(int cantidadDados, int carasPorDado) {
+  public RandomizadorModel(int cantidadDados, int carasPorDado) {
     this(cantidadDados, carasPorDado, new Random());
   }
 
-  public Randomizador(int cantidadDados, int carasPorDado, Random random) {
+  public RandomizadorModel(int cantidadDados, int carasPorDado, Random random) {
     if (cantidadDados < 1 || carasPorDado < 1)
       throw new IllegalArgumentException("Parametros inválidos");
     this.cantidadDados = cantidadDados;

@@ -1,6 +1,6 @@
 package fiuba.cyberlek.model;
 
-public enum Recurso {
+public enum RecursoEnum {
   MADERA("Madera"),
   ARCILLA("Arcilla"),
   TRIGO("Trigo"),
