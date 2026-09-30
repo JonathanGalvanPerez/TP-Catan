@@ -23,5 +23,3 @@ public class VerticeModel implements VerticeConstruidoModel {
     }
   }
 }
-
-

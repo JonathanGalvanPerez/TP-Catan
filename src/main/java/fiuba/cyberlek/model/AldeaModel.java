@@ -20,6 +20,4 @@ public class AldeaModel extends ConstruccionModel {
   public ConstruccionModel downgradear() {
     return null;
   }
-
 }
-
