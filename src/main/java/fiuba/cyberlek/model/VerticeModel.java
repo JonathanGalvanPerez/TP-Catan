@@ -5,11 +5,23 @@ public class VerticeModel implements VerticeConstruidoModel {
   private ConstruccionModel construccion;
 
   @Override
-  public void recibirRecurso(Recurso recurso) {}
+  public void recibirRecurso(Recurso recurso) {
+    construccion.asignarRecursoJugador(recurso);
+  }
 
   public void construir() {}
 
-  public void mejorarConstruccion() {}
+  public void mejorarConstruccion() {
+    if (construccion != null) {
+      construccion.mejorar();
+    }
+  }
 
-  public void degradarConstruccion() {}
+  public void degradarConstruccion() {
+    if (construccion != null) {
+      construccion.downgradear();
+    }
+  }
 }
+
+
