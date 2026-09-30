@@ -8,6 +8,6 @@ public class AldeaModel extends ConstruccionModel {
 
     @Override
     public void asignarRecursoJugador(Recurso recurso) {
-
+        jugador.agregar(recurso, 1);
     }
 }
