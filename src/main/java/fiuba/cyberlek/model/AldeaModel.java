@@ -2,12 +2,12 @@ package fiuba.cyberlek.model;
 
 public class AldeaModel extends ConstruccionModel {
 
-    public AldeaModel(JugadorModel jugador) {
-        this.jugador = jugador;
-    }
+  public AldeaModel(JugadorModel jugador) {
+    this.jugador = jugador;
+  }
 
-    @Override
-    public void asignarRecursoJugador(Recurso recurso) {
-        jugador.agregar(recurso, 1);
-    }
+  @Override
+  public void asignarRecursoJugador(Recurso recurso) {
+    jugador.agregar(recurso, 1);
+  }
 }

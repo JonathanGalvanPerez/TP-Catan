@@ -1,24 +1,15 @@
 package fiuba.cyberlek.model;
 
 public class VerticeModel implements VerticeConstruidoModel {
-    private int id;
-    private ConstruccionModel construccion;
+  private int id;
+  private ConstruccionModel construccion;
 
-    @Override
-    public void recibirRecurso(Recurso recurso) {
+  @Override
+  public void recibirRecurso(Recurso recurso) {}
 
-    }
+  public void construir() {}
 
-    public void construir() {
+  public void mejorarConstruccion() {}
 
-    }
-
-    public void mejorarConstruccion() {
-
-    }
-
-    public void degradarConstruccion() {
-
-    }
-
+  public void degradarConstruccion() {}
 }

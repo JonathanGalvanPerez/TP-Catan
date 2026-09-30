@@ -1,5 +1,5 @@
 package fiuba.cyberlek.model;
 
-interface  ConstruccionModel {
-    void asignarRecursoJugador();
+interface ConstruccionModel {
+  void asignarRecursoJugador();
 }
