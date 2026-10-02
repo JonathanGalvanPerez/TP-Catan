@@ -4,16 +4,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 public class GrafoModel {
   private List<List<AristaModel>> listaAdyacencias;
   private Map<String, VerticeModel> indexacionVertices;
   private Map<String, AristaModel> indexacionAristas;
+  private List<VerticeModel> vertices;
 
   public GrafoModel() {
     this.indexacionAristas = new HashMap<>();
     this.indexacionVertices = new HashMap<>();
     this.listaAdyacencias = new ArrayList<>();
+    this.vertices = new ArrayList<>();
   }
 
   public boolean existeVertice(String posicion) {
@@ -27,7 +30,8 @@ public class GrafoModel {
   // compilacion
   public void agregarVertice(String posicion, VerticeModel vertice) {
     this.indexacionVertices.put(posicion, vertice);
-    listaAdyacencias.add(vertice.getIndiceAdyacencia(), new ArrayList<>());
+    this.vertices.add(vertice);
+    this.listaAdyacencias.add(vertice.getIndiceAdyacencia(), new ArrayList<>());
   }
 
   public void agregarArista(
@@ -64,5 +68,13 @@ public class GrafoModel {
     List<AristaModel> adyacencias = new ArrayList<>(adyacenciasVertice1);
     adyacencias.addAll(adyacenciasVertice2);
     return adyacencias;
+  }
+
+  public void iterar(Predicate<VerticeModel> funcionVisitar) {
+    for (VerticeModel vertice : this.vertices) {
+      if (!funcionVisitar.test(vertice)) {
+        break;
+      }
+    }
   }
 }
