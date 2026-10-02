@@ -4,7 +4,7 @@ Reinterpretación del juego Catan desarrollada en Java 21 como proyecto Maven, a
 
 ## Integrantes (Grupo Cyberlek)
 
-* **Ian Alabornoz**
+* **Ian Albornoz**
 * **Jonathan Galvan Perez**
 * **Osvaldo Grasso**
 * **Tomas Cilia**
