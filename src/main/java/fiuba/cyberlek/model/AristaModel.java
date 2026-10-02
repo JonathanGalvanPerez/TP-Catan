@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AristaModel {
+  private String posicion;
   private VerticeModel vertice1;
   private VerticeModel vertice2;
   private ConstruccionModel camino;
@@ -16,11 +17,15 @@ public class AristaModel {
 
   // public void Construir(){}
 
-  public List<VerticeModel> devolverVertices() {
-    List<VerticeModel> aux = new ArrayList<>();
-    aux.add(vertice1);
-    aux.add(vertice2);
+  public List<String> devolverVertices() {
+    List<String> aux = new ArrayList<>();
+    aux.add(vertice1.getPosicion());
+    aux.add(vertice2.getPosicion());
     return aux;
+  }
+
+  public String getPosicion() {
+    return this.posicion;
   }
 
   public boolean estaConstruida() {
