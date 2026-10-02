@@ -17,13 +17,13 @@ public class VerticeModel implements VerticeConstruidoModel {
 
   public void mejorarConstruccion() {
     if (construccion != null) {
-      construccion.mejorar();
+      this.construccion = construccion.mejorar();
     }
   }
 
   public void degradarConstruccion() {
     if (construccion != null) {
-      construccion.downgradear();
+      this.construccion = construccion.downgradear();
     }
   }
 }
