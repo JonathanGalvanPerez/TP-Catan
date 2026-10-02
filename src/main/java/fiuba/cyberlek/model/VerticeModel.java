@@ -9,7 +9,11 @@ public class VerticeModel implements VerticeConstruidoModel {
     construccion.asignarRecursoJugador(recurso);
   }
 
-  public void construir() {}
+  public void construir(JugadorModel jugador) {
+    if (construccion == null) {
+      this.construccion = new AldeaModel(jugador);
+    }
+  }
 
   public void mejorarConstruccion() {
     if (construccion != null) {
