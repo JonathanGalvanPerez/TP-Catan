@@ -11,6 +11,7 @@ import java.util.Optional;
 public class JugadorModel {
 
   private final String nombre;
+  private int puntosVictoria = 0;
   private final Map<Recurso, Integer> recursos = new EnumMap<>(Recurso.class);
 
   public JugadorModel(String nombre) {
@@ -21,6 +22,10 @@ public class JugadorModel {
     for (Recurso r : Recurso.values()) {
       recursos.put(r, 0);
     }
+  }
+
+  public void asignarPuntoVictoria(int puntoVictoria) {
+    this.puntosVictoria += puntoVictoria;
   }
 
   public String getNombre() {

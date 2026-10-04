@@ -10,7 +10,11 @@ public class VerticeModel implements VerticeConstruidoModel {
     construccion.asignarRecursoJugador(recurso);
   }
 
-  public void construir() {}
+  public void construir(JugadorModel jugador) {
+    if (construccion == null) {
+      this.construccion = new AldeaModel(jugador);
+    }
+  }
 
   public int getIndiceAdyacencia() {
     return this.id;
@@ -22,13 +26,13 @@ public class VerticeModel implements VerticeConstruidoModel {
 
   public void mejorarConstruccion() {
     if (construccion != null) {
-      construccion.mejorar();
+      this.construccion = construccion.mejorar();
     }
   }
 
   public void degradarConstruccion() {
     if (construccion != null) {
-      construccion.downgradear();
+      this.construccion = construccion.downgradear();
     }
   }
 }
