@@ -5,6 +5,12 @@ public class VerticeModel implements VerticeConstruidoModel {
   private String posicion;
   private ConstruccionModel construccion;
 
+  public VerticeModel(int id, String posicion){
+    this.id = id;
+    this.posicion = posicion;
+    this.construccion = null;
+  }
+
   @Override
   public void recibirRecurso(Recurso recurso) {
     construccion.asignarRecursoJugador(recurso);
