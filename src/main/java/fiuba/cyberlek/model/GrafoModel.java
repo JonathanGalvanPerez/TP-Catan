@@ -70,6 +70,24 @@ public class GrafoModel {
     return adyacencias;
   }
 
+  public List<VerticeModel> obtenerVertices() {
+    return List.copyOf(this.vertices);
+  }
+
+  public VerticeModel obtenerVertice(String posicion) {
+    if (!this.existeVertice(posicion)) {
+      return null;
+    }
+    return this.indexacionVertices.get(posicion);
+  }
+
+  public AristaModel obtenerArista(String posicion) {
+    if (!this.existeArista(posicion)) {
+      return null;
+    }
+    return this.indexacionAristas.get(posicion);
+  }
+
   public void iterar(Predicate<VerticeModel> funcionVisitar) {
     for (VerticeModel vertice : this.vertices) {
       if (!funcionVisitar.test(vertice)) {
