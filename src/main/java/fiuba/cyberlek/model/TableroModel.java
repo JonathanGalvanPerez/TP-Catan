@@ -12,6 +12,8 @@ public class TableroModel {
 
   private List<CasilleroModel> Casilleros;
 
+  public void crearCamino(String posicionArista) {}
+
   public void crearAldeaInicial(String posicionVertice) {
     VerticeModel vertice = grafo.obtenerVertice(posicionVertice);
 
