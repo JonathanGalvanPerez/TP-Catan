@@ -16,12 +16,14 @@ public class JuegoController {
     private JuegoModel juego;
     private JuegoView juegoView;
     private LineReader reader;
+    private MenuController menuController;
 
     public JuegoController() throws IOException {
         Terminal terminal = TerminalBuilder.terminal();
         this.reader = LineReaderBuilder.builder()
-                .terminal(terminal)
-                .build();
+            .terminal(terminal)
+            .build();
+        this.menuController = new MenuController(reader);
 
         int cantidadDeJugadores = Integer.parseInt(reader.readLine("Ingrese la cantidad de jugadores (2-4): "));
         List<JugadorModel> jugadores = new ArrayList<>();
@@ -35,8 +37,32 @@ public class JuegoController {
     }
 
     public void jugarTurno() {
+        boolean turnoTerminado = false;
         juego.iniciarTurno();
-        juegoView.mostrarTablero();
-        juego.jugarTurno();
+        juegoView.mostrarJuego();
+        while(!turnoTerminado) {
+            int opcionSeleccionada = menuController.mostrarMenu(List.of("Construir", "Comerciar", "Terminar turno", "Rendirse"));
+            switch (opcionSeleccionada) {
+                case 0:
+                    // Lógica para construir
+                    break;
+                case 1:
+                    // Lógica para comerciar
+                    break;
+                case 2:
+                    // Lógica para terminar el turno
+                    turnoTerminado = true;
+                    break;
+                case 3:
+                    // Lógica para rendirse
+                    turnoTerminado = true;
+                    break;
+            }
+        }
+        juego.terminarTurno();
+    }
+
+    public boolean termino() {
+        return juego.termino();
     }
 }

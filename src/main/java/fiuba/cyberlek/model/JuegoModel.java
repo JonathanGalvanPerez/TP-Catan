@@ -5,6 +5,7 @@ import java.util.List;
 public class JuegoModel {
     private AdministradorDeTurnosModel administradorDeTurnos;
     private TableroModel tablero;
+    private boolean juegoTerminado = false;
 
     public JuegoModel(List<JugadorModel> jugadores) {
         if (jugadores.size() < 2 || jugadores.size() > 4) {
@@ -29,10 +30,15 @@ public class JuegoModel {
         // ...
     }
 
-    public void jugarTurno() {
-        JugadorModel jugadorActual = administradorDeTurnos.obtenerJugadorActual();
-        // Lógica para que el jugador actual juegue su turno
-        // ...
+    public JugadorModel obtenerJugadorActual() {
+        return administradorDeTurnos.obtenerJugadorActual();
+    }
+
+    public void terminarTurno() {
         administradorDeTurnos.siguienteTurno();
+    }
+
+    public boolean termino() {
+        return juegoTerminado;
     }
 }
