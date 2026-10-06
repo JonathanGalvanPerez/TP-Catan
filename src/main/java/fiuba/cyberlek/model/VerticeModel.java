@@ -5,7 +5,7 @@ public class VerticeModel implements VerticeConstruidoModel {
   private String posicion;
   private ConstruccionModel construccion;
 
-  public VerticeModel(int id, String posicion){
+  public VerticeModel(int id, String posicion) {
     this.id = id;
     this.posicion = posicion;
     this.construccion = null;

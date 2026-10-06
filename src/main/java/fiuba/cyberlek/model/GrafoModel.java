@@ -70,7 +70,7 @@ public class GrafoModel {
     return adyacencias;
   }
 
-  public List<VerticeModel> obtenerVertices(){
+  public List<VerticeModel> obtenerVertices() {
     return List.copyOf(this.vertices);
   }
 
