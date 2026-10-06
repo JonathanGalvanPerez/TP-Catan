@@ -56,6 +56,7 @@ public class JuegoController {
                 case 3:
                     // Lógica para rendirse
                     turnoTerminado = true;
+                    juego.rendirse();
                     break;
             }
         }

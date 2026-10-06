@@ -12,10 +12,16 @@ public class AdministradorDeTurnosModel {
     }
 
     public JugadorModel obtenerJugadorActual() {
-        return jugadores.get(turno);
+        int indice = turno % jugadores.size();
+        JugadorModel jugador = jugadores.get(indice);
+        if (jugador.estaEliminado()) {
+            jugadores.remove(indice);
+            return obtenerJugadorActual();
+        }
+        return jugador;
     }
 
     public void siguienteTurno() {
-        turno = (turno + 1) % jugadores.size();
+        turno++;
     }
 }

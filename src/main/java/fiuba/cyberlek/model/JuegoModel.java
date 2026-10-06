@@ -38,6 +38,11 @@ public class JuegoModel {
         administradorDeTurnos.siguienteTurno();
     }
 
+    public void rendirse() {
+        JugadorModel jugadorActual = obtenerJugadorActual();
+        jugadorActual.eliminar();
+    }
+
     public boolean termino() {
         return juegoTerminado;
     }
