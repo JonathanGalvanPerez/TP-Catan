@@ -1,12 +1,19 @@
 package fiuba.cyberlek.controller;
 
-import fiuba.cyberlek.model.GrafoBuilderModel;
-import fiuba.cyberlek.model.GrafoModel;
+import fiuba.cyberlek.model.TableroModel;
 
 public class ConstruccionController {
-  private GrafoModel grafo;
+  private TableroModel tablero;
 
-  public ConstruccionController(int dimensionX, int dimensionY) {
-    this.grafo = new GrafoBuilderModel(dimensionX, dimensionY).CrearGrafo();
+  public ConstruccionController(TableroModel tablero) {
+    this.tablero = tablero;
+  }
+
+  public void pedirConstruirAldeaInicial(String posicionVertice) {
+    try {
+      tablero.crearAldeaInicial(posicionVertice);
+    } catch (RuntimeException e) {
+
+    }
   }
 }
