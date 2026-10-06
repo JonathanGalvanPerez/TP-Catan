@@ -9,7 +9,8 @@ public class AristaModel {
   private VerticeModel vertice2;
   private ConstruccionModel camino;
 
-  public AristaModel(VerticeModel v1, VerticeModel v2) {
+  public AristaModel(String posicion, VerticeModel v1, VerticeModel v2) {
+    this.posicion = posicion;
     this.vertice1 = v1;
     this.vertice2 = v2;
     this.camino = null;

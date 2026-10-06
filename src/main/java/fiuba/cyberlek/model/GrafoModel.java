@@ -70,6 +70,10 @@ public class GrafoModel {
     return adyacencias;
   }
 
+  public List<VerticeModel> obtenerVertices() {
+    return List.copyOf(this.vertices);
+  }
+
   public void iterar(Predicate<VerticeModel> funcionVisitar) {
     for (VerticeModel vertice : this.vertices) {
       if (!funcionVisitar.test(vertice)) {
