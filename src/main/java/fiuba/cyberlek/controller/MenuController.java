@@ -1,34 +1,53 @@
 package fiuba.cyberlek.controller;
 
-import java.util.List;
-
 import org.jline.reader.LineReader;
 
 public class MenuController {
-    private LineReader reader;
+  private final LineReader reader;
 
-    public MenuController(LineReader reader) {
-        this.reader = reader;
-    }
+  public MenuController(LineReader reader) {
+    this.reader = reader;
+  }
 
-    public int mostrarMenu(String titulo, List<String> opciones) {
-        while (true) {
-            System.out.println("=== " + titulo + " ===");
-            for (int i = 0; i < opciones.size(); i++) {
-                System.out.println((i + 1) + ". " + opciones.get(i));
+  public MenuOption mostrarMenu(Menu menu) {
+    return mostrarMenu(menu, false);
+  }
+
+  private MenuOption mostrarMenu(Menu menu, boolean permiteVolver) {
+    while (true) {
+      System.out.println("=== " + menu.getNombre() + " ===");
+      var componentes = menu.getComponentes();
+      for (int i = 0; i < componentes.size(); i++) {
+        System.out.println((i + 1) + ". " + componentes.get(i).getNombre());
+      }
+      if (permiteVolver) {
+        System.out.println((componentes.size() + 1) + ". Volver");
+      }
+
+      int cantidadOpciones = componentes.size() + (permiteVolver ? 1 : 0);
+      String opcionSeleccionada =
+          reader.readLine("Seleccione una opción (1-" + cantidadOpciones + "): ");
+      try {
+        int indiceSeleccionado = Integer.parseInt(opcionSeleccionada) - 1;
+        if (indiceSeleccionado >= 0 && indiceSeleccionado < componentes.size()) {
+          MenuComponent componente = componentes.get(indiceSeleccionado);
+          if (componente instanceof Menu submenu) {
+            MenuOption opcion = mostrarMenu(submenu, true);
+            if (opcion != null) {
+              return opcion;
             }
-
-            String opcionSeleccionada = reader.readLine("Seleccione una opción (1-" + opciones.size() + "): ");
-            try {
-                int opcion = Integer.parseInt(opcionSeleccionada) - 1;
-                if (opcion >= 0 && opcion < opciones.size()) {
-                    System.out.println("Opción seleccionada: " + opciones.get(opcion));
-                    return opcion;
-                }
-            } catch (NumberFormatException ignored) {
-            }
-
-            System.out.println("Opción inválida. Intente nuevamente.");
+            continue;
+          } else if (componente instanceof MenuOption opcion) {
+            System.out.println("Opción seleccionada: " + opcion.getNombre());
+            return opcion;
+          }
+        } else if (permiteVolver && indiceSeleccionado == componentes.size()) {
+          return null;
         }
+      } catch (NumberFormatException ignored) {
+      }
+
+      System.out.println("Opción inválida. Intente nuevamente.");
     }
+  }
 }

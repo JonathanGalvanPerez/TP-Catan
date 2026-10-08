@@ -18,6 +18,7 @@ public class JuegoController {
     private JuegoView juegoView;
     private LineReader reader;
     private MenuController menuController;
+    private Menu menuTurno;
 
     public JuegoController() throws IOException {
         Terminal terminal = TerminalBuilder.terminal();
@@ -25,6 +26,7 @@ public class JuegoController {
             .terminal(terminal)
             .build();
         this.menuController = new MenuController(reader);
+        this.menuTurno = crearMenuTurno();
 
         int cantidadDeJugadores = Integer.parseInt(reader.readLine("Ingrese la cantidad de jugadores (2-4): "));
         List<JugadorModel> jugadores = new ArrayList<>();
@@ -42,46 +44,54 @@ public class JuegoController {
         juego.iniciarTurno();
         juegoView.mostrarJuego();
         while(!turnoTerminado) {
-            int opcionSeleccionada = menuController.mostrarMenu("Acciones", List.of("Construir", "Comerciar", "Terminar turno", "Rendirse"));
-            switch (opcionSeleccionada) {
-                case 0:
-                    int opcionSeleccionada2 = menuController.mostrarMenu("Construcción", List.of("Aldea", "Ciudad", "Camino", "Volver"));
-                    switch (opcionSeleccionada2) {
-                        case 0:
-                            int posicionAldea = Integer.parseInt(reader.readLine("Ingrese la posición para construir la aldea: "));
-                            // Lógica para construir aldea
-                            break;
-                        case 1:
-                            int posicionCiudad = Integer.parseInt(reader.readLine("Ingrese la posición para construir la ciudad: "));
-                            // Lógica para construir ciudad
-                            break;
-                        case 2:
-                            int posicionCamino = Integer.parseInt(reader.readLine("Ingrese la posición para construir el camino: "));
-                            // Lógica para construir camino
-                            break;
-                        case 3:
-                            // Volver al menú principal
-                            break;
-                        default:
-                            break;
-                    }
+            MenuOption opcionSeleccionada = menuController.mostrarMenu(menuTurno);
+            switch (opcionSeleccionada.getAccion()) {
+                case CONSTRUIR_ALDEA:
+                    Integer.parseInt(reader.readLine("Ingrese la posición para construir la aldea: "));
+                    // Lógica para construir aldea
                     break;
-                case 1:
-                    int recursoSeleccionado = menuController.mostrarMenu("Recurso a comerciar", List.of("Madera", "Arcilla", "Trigo", "Mineral", "Mineral", "Volver"));
-                    Recurso recurso = Recurso.values()[recursoSeleccionado];
+                case CONSTRUIR_CIUDAD:
+                    Integer.parseInt(reader.readLine("Ingrese la posición para construir la ciudad: "));
+                    // Lógica para construir ciudad
+                    break;
+                case CONSTRUIR_CAMINO:
+                    Integer.parseInt(reader.readLine("Ingrese la posición para construir el camino: "));
+                    // Lógica para construir camino
+                    break;
+                case COMERCIAR:
+                    opcionSeleccionada.getRecurso().orElseThrow();
                     // Lógica para comerciar el recurso seleccionado
-                case 2:
-                    // Lógica para terminar el turno
+                    break;
+                case TERMINAR_TURNO:
                     turnoTerminado = true;
                     break;
-                case 3:
-                    // Lógica para rendirse
+                case RENDIRSE:
                     turnoTerminado = true;
                     juego.rendirse();
                     break;
             }
         }
         juego.terminarTurno();
+    }
+
+    private Menu crearMenuTurno() {
+        Menu construccion =
+                new Menu("Construcción")
+                        .agregar(new MenuOption("Aldea", AccionMenu.CONSTRUIR_ALDEA))
+                        .agregar(new MenuOption("Ciudad", AccionMenu.CONSTRUIR_CIUDAD))
+                        .agregar(new MenuOption("Camino", AccionMenu.CONSTRUIR_CAMINO));
+        Menu comercio = new Menu("Recurso a comerciar");
+        for (Recurso recurso : Recurso.values()) {
+            if (recurso != Recurso.NADA) {
+                comercio.agregar(new MenuOption(recurso.getNombre(), AccionMenu.COMERCIAR, recurso));
+            }
+        }
+
+        return new Menu("Acciones")
+                .agregar(construccion)
+                .agregar(comercio)
+                .agregar(new MenuOption("Terminar turno", AccionMenu.TERMINAR_TURNO))
+                .agregar(new MenuOption("Rendirse", AccionMenu.RENDIRSE));
     }
 
     public boolean termino() {
