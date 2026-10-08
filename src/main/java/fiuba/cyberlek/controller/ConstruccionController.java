@@ -1,5 +1,4 @@
 package fiuba.cyberlek.controller;
-
 import fiuba.cyberlek.model.TableroModel;
 
 public class ConstruccionController {
@@ -8,12 +7,21 @@ public class ConstruccionController {
   public ConstruccionController(TableroModel tablero) {
     this.tablero = tablero;
   }
-
+  
   public void pedirConstruirAldeaInicial(String posicionVertice) {
     try {
       tablero.crearAldeaInicial(posicionVertice);
     } catch (RuntimeException e) {
+      // .....
+    }
+  }
+
+  public void pedirConstruirCamino(String posicionArista) {
+    try {
+      tablero.crearCamino(posicionArista);
+    } catch (RuntimeException e) {
 
     }
   }
-}
+
+} 
