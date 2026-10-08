@@ -8,17 +8,17 @@ public class ConstruccionController {
     this.tablero = tablero;
   }
   
-  public void pedirConstruirAldeaInicial(String posicionVertice) {
+  public void pedirConstruirAldeaInicial(String posicionVertice, JugadorModel jugador) {
     try {
-      tablero.crearAldeaInicial(posicionVertice);
+      tablero.crearAldeaInicial(posicionVertice, jugador);
     } catch (RuntimeException e) {
       // .....
     }
   }
 
-  public void pedirConstruirCamino(String posicionArista) {
+  public void pedirConstruirCamino(String posicionArista,  JugadorModel jugador) {
     try {
-      tablero.crearCamino(posicionArista);
+      tablero.crearCamino(posicionArista, jugador);
     } catch (RuntimeException e) {
 
     }

@@ -1,20 +1,65 @@
 package fiuba.cyberlek.model;
 
+import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class TableroModel {
 
   private GrafoModel grafo;
-
-  public TableroModel(int dimensioNX, int dimensionY) {
-    this.grafo = new GrafoBuilderModel(dimensioNX, dimensionY).CrearGrafo();
-  }
-
+  private Map<JugadorModel, Set<String>> construcciones;
   private List<CasilleroModel> Casilleros;
 
-  public void crearCamino(String posicionArista) {}
 
-  public void crearAldeaInicial(String posicionVertice) {
+  public TableroModel(int dimensioNX, int dimensionY, List<JugadorModel> jugadores) {
+    this.grafo = new GrafoBuilderModel(dimensioNX, dimensionY).CrearGrafo();
+    this.construcciones = new HashMap<>();
+    for (JugadorModel jugador : jugadores) {
+      construcciones.put(jugador, new HashSet<>());
+    }
+
+  }
+
+  
+
+  public void crearCamino(String posicionArista, JugadorModel jugador) {
+    AristaModel arista = grafo.obtenerArista(posicionArista);
+    Boolean estaConstruida = arista.estaConstruida();
+    if (!estaConstruida) {
+      throw new IllegalStateException("Ya existe construccion en esta arista.")
+    } 
+
+    Boolean construible = false;
+
+    List<String> verticesAdyacentes = arista.devolverVertices();
+    if (this.construcciones.get(jugador).contains(verticesAdyacentes.get(0)) | this.construcciones.get(jugador).contains(verticesAdyacentes.get(1))) {
+      construible = true;
+    }
+    
+    List<AristaModel> aristasAdyacentes = this.grafo.obtenerAdyacenciasArista(posicionArista);
+
+    for (AristaModel aristaAdyacente : aristasAdyacentes){
+      if (this.construcciones.get(jugador).contains(aristaAdyacente.getPosicion())) {
+        construible = true;
+        break;
+      }
+    }
+    
+    if (!construible) {
+      throw new IllegalStateException("No es posible construir en esta arista."); 
+    }
+
+    arista.construirCamino();
+    Set<String> posiciones = this.construcciones.get(jugador);
+    posiciones.add(posicionArista);
+    this.construcciones.put(jugador,posiciones);
+      
+
+  }
+
+  public void crearAldeaInicial(String posicionVertice, JugadorModel jugador) {
     VerticeModel vertice = grafo.obtenerVertice(posicionVertice);
 
     if (vertice == null) {
@@ -23,10 +68,14 @@ public class TableroModel {
 
     if (!tieneDistanciaAceptada(vertice)) {
       throw new IllegalStateException(
-          "No se puede crear una aldea aca, rompe la regla de la distancia minima");
+          "No se puede crear una aldea aca, rompe la regla de la distancia minima.");
     }
 
-    // vertice.construir(jugador);
+    vertice.construir(jugador);
+
+    Set<String> posiciones = this.construcciones.get(jugador);
+    posiciones.add(posicionVertice);
+    this.construcciones.put(jugador,posiciones);
 
   }
 
