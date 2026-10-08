@@ -73,6 +73,55 @@ public class TableroModel {
     this.construcciones.put(jugador, posiciones);
   }
 
+  public void upgradear(String posicionVertice, JugadorModel jugador) {
+    VerticeModel vertice = grafo.obtenerVertice(posicionVertice);
+
+    if (vertice == null) {
+      throw new IllegalArgumentException("No existe vertice en esta posicion");
+    }
+
+    if (!this.construcciones.get(jugador).contains(posicionVertice)) {
+      throw new IllegalStateException("Esta construccion no te pertenece.");
+    }
+
+    if (!vertice.mejorarConstruccion()) {
+      throw new IllegalStateException("Esta construccion ya esta al maximo.");
+    }
+
+    if (!this.sustraerRecursos(jugador, "ciudad")) {
+      vertice.degradarConstruccion();
+      throw new IllegalStateException(
+          "No se mejorar la construccion, no tienes los recursos suficientes");
+    }
+  }
+
+  public void downgradear(String posicionVertice, JugadorModel jugador) {
+    VerticeModel vertice = grafo.obtenerVertice(posicionVertice);
+
+    if (vertice == null) {
+      throw new IllegalArgumentException("No existe vertice en esta posicion");
+    }
+
+    if (!vertice.existeConstruccion()) {
+      throw new IllegalStateException("Este vertice no tiene construccion.");
+    }
+
+    if (!this.construcciones.get(jugador).contains(posicionVertice)) {
+      throw new IllegalStateException("Esta construccion no te pertenece.");
+    }
+
+    vertice.degradarConstruccion();
+
+    if (!vertice.existeConstruccion()) {
+      // logica de desuscribir el vertice de las casillas
+      Set<String> posiciones = this.construcciones.get(jugador);
+      posiciones.remove(posicionVertice);
+      this.construcciones.put(jugador, posiciones);
+    }
+  }
+
+  // public void destruirCamino(String posicionArista) {}
+
   public void crearAldea(String posicionVertice, JugadorModel jugador) {
     if (!this.sustraerRecursos(jugador, "aldea")) {
       throw new IllegalStateException(
@@ -105,6 +154,7 @@ public class TableroModel {
     Set<String> posiciones = this.construcciones.get(jugador);
     posiciones.add(posicionVertice);
     this.construcciones.put(jugador, posiciones);
+    // logica de suscribir el vertice a sus casillas
   }
 
   public void crearAldeaInicial(String posicionVertice, JugadorModel jugador) {
@@ -124,6 +174,8 @@ public class TableroModel {
     Set<String> posiciones = this.construcciones.get(jugador);
     posiciones.add(posicionVertice);
     this.construcciones.put(jugador, posiciones);
+
+    // logica de suscribir el vertice a sus casillas
   }
 
   private boolean tieneDistanciaAceptada(VerticeModel vertice) {

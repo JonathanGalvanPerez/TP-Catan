@@ -24,4 +24,12 @@ public class ConstruccionController {
 
     }
   }
+
+  public void pedirUpgradear(String posicionVertice, JugadorModel jugador) {
+    try {
+      tablero.upgradear(posicionVertice, jugador);
+    } catch (RuntimeException e) {
+
+    }
+  }
 }

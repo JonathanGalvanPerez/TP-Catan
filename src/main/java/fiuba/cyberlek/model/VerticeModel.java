@@ -5,12 +5,6 @@ public class VerticeModel implements VerticeConstruidoModel {
   private String posicion;
   private ConstruccionModel construccion;
 
-  public VerticeModel(int id, String posicion) {
-    this.id = id;
-    this.posicion = posicion;
-    this.construccion = null;
-  }
-
   @Override
   public void recibirRecurso(Recurso recurso) {
     construccion.asignarRecursoJugador(recurso);
@@ -26,14 +20,20 @@ public class VerticeModel implements VerticeConstruidoModel {
     return this.id;
   }
 
+  public Boolean existeConstruccion() {
+    return construccion != null;
+  }
+
   public String getPosicion() {
     return this.posicion;
   }
 
-  public void mejorarConstruccion() {
+  public Boolean mejorarConstruccion() {
     if (construccion != null) {
       this.construccion = construccion.mejorar();
+      return true;
     }
+    return false;
   }
 
   public void degradarConstruccion() {
