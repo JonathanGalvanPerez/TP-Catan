@@ -10,6 +10,7 @@ import org.jline.terminal.TerminalBuilder;
 
 import fiuba.cyberlek.model.JuegoModel;
 import fiuba.cyberlek.model.JugadorModel;
+import fiuba.cyberlek.model.Recurso;
 import fiuba.cyberlek.view.JuegoView;
 
 public class JuegoController {
@@ -41,14 +42,34 @@ public class JuegoController {
         juego.iniciarTurno();
         juegoView.mostrarJuego();
         while(!turnoTerminado) {
-            int opcionSeleccionada = menuController.mostrarMenu(List.of("Construir", "Comerciar", "Terminar turno", "Rendirse"));
+            int opcionSeleccionada = menuController.mostrarMenu("Acciones", List.of("Construir", "Comerciar", "Terminar turno", "Rendirse"));
             switch (opcionSeleccionada) {
                 case 0:
-                    // Lógica para construir
+                    int opcionSeleccionada2 = menuController.mostrarMenu("Construcción", List.of("Aldea", "Ciudad", "Camino", "Volver"));
+                    switch (opcionSeleccionada2) {
+                        case 0:
+                            int posicionAldea = Integer.parseInt(reader.readLine("Ingrese la posición para construir la aldea: "));
+                            // Lógica para construir aldea
+                            break;
+                        case 1:
+                            int posicionCiudad = Integer.parseInt(reader.readLine("Ingrese la posición para construir la ciudad: "));
+                            // Lógica para construir ciudad
+                            break;
+                        case 2:
+                            int posicionCamino = Integer.parseInt(reader.readLine("Ingrese la posición para construir el camino: "));
+                            // Lógica para construir camino
+                            break;
+                        case 3:
+                            // Volver al menú principal
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 case 1:
-                    // Lógica para comerciar
-                    break;
+                    int recursoSeleccionado = menuController.mostrarMenu("Recurso a comerciar", List.of("Madera", "Arcilla", "Trigo", "Mineral", "Mineral", "Volver"));
+                    Recurso recurso = Recurso.values()[recursoSeleccionado];
+                    // Lógica para comerciar el recurso seleccionado
                 case 2:
                     // Lógica para terminar el turno
                     turnoTerminado = true;

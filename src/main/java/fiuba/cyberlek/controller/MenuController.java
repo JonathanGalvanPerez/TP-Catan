@@ -11,14 +11,24 @@ public class MenuController {
         this.reader = reader;
     }
 
-    public int mostrarMenu(List<String> opciones) {
-        System.out.println("=== Menú ===");
-        for (int i = 0; i < opciones.size(); i++) {
-            System.out.println((i + 1) + ". " + opciones.get(i));
+    public int mostrarMenu(String titulo, List<String> opciones) {
+        while (true) {
+            System.out.println("=== " + titulo + " ===");
+            for (int i = 0; i < opciones.size(); i++) {
+                System.out.println((i + 1) + ". " + opciones.get(i));
+            }
+
+            String opcionSeleccionada = reader.readLine("Seleccione una opción (1-" + opciones.size() + "): ");
+            try {
+                int opcion = Integer.parseInt(opcionSeleccionada) - 1;
+                if (opcion >= 0 && opcion < opciones.size()) {
+                    System.out.println("Opción seleccionada: " + opciones.get(opcion));
+                    return opcion;
+                }
+            } catch (NumberFormatException ignored) {
+            }
+
+            System.out.println("Opción inválida. Intente nuevamente.");
         }
-        String opcionSeleccionada = reader.readLine("Seleccione una opción (1-" + opciones.size() + "): ");
-        int opcion = Integer.parseInt(opcionSeleccionada) - 1; // Restamos 1 para obtener el índice correcto
-        System.out.println("Opción seleccionada: " + opciones.get(opcion));
-        return opcion;
     }
 }
