@@ -22,17 +22,15 @@ public class AristaModel {
     return this.camino;
   }
 
-  public void destruirCamino(){
- //   this.jugador = null;
+  public void destruirCamino() {
+    //   this.jugador = null;
     this.camino = false;
   }
 
-  public void construirCamino(){
-  //  this.jugador = jugador;
+  public void construirCamino() {
+    //  this.jugador = jugador;
     this.camino = true;
   }
-
-  public void puedeConstruir
 
   public List<String> devolverVertices() {
     List<String> aux = new ArrayList<>();
@@ -44,5 +42,4 @@ public class AristaModel {
   public String getPosicion() {
     return this.posicion;
   }
-
 }

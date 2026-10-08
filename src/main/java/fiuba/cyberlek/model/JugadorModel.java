@@ -120,7 +120,7 @@ public class JugadorModel {
   public int getPuntosVictoria() {
     return puntosVictoria;
   }
-  
+
   public boolean estaEliminado() {
     return eliminado;
   }
