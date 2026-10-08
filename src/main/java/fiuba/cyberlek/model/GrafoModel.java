@@ -19,11 +19,11 @@ public class GrafoModel {
     this.vertices = new ArrayList<>();
   }
 
-  public boolean existeVertice(String posicion) {
+  private boolean existeVertice(String posicion) {
     return indexacionVertices.containsKey(posicion);
   }
 
-  public boolean existeArista(String posicion) {
+  private boolean existeArista(String posicion) {
     return indexacionAristas.containsKey(posicion);
   }
 
