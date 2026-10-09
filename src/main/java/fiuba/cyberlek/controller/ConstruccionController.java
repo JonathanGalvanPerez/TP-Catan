@@ -1,7 +1,7 @@
 package fiuba.cyberlek.controller;
 
-import fiuba.cyberlek.model.TableroModel;
 import fiuba.cyberlek.model.JugadorModel;
+import fiuba.cyberlek.model.TableroModel;
 
 public class ConstruccionController {
   private TableroModel tablero;

@@ -12,7 +12,7 @@ public class JuegoModel {
       throw new IllegalArgumentException("La cantidad de jugadores debe ser entre 2 y 4");
     }
     this.administradorDeTurnos = new AdministradorDeTurnosModel(jugadores);
-    this.tablero = new TableroModel();
+    this.tablero = new TableroModel(10, 10, jugadores);
   }
 
   public void iniciarTurno() {

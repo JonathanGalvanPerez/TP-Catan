@@ -7,7 +7,6 @@ public class AristaModel {
   private String posicion;
   private VerticeModel vertice1;
   private VerticeModel vertice2;
-  // private JugadorModel jugador;
   private boolean camino;
 
   public AristaModel(String posicion, VerticeModel v1, VerticeModel v2) {
@@ -15,7 +14,6 @@ public class AristaModel {
     this.vertice1 = v1;
     this.vertice2 = v2;
     this.camino = false;
-    this.jugador = null;
   }
 
   public boolean estaConstruida() {
@@ -23,12 +21,10 @@ public class AristaModel {
   }
 
   public void destruirCamino() {
-    //   this.jugador = null;
     this.camino = false;
   }
 
   public void construirCamino() {
-    //  this.jugador = jugador;
     this.camino = true;
   }
 
