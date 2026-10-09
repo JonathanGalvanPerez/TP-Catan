@@ -10,10 +10,10 @@ public class CasilleroModel {
   private List<VerticeModel> vertices;
   private List<VerticeConstruidoModel> verticesConstruidos;
 
-  public CasilleroModel(int numeroFarmeo, TerrenoModel terreno, List<VerticeModel> vertices) {
+  public CasilleroModel(int numeroFarmeo, TerrenoModel terreno) {
     this.NumeroCasillero = numeroFarmeo;
+    this.terreno = terreno;
     this.tieneSaqueador = false;
-    this.vertices = vertices;
   }
 
   public void intentarFarmear(int NumeroDado) {
@@ -34,7 +34,9 @@ public class CasilleroModel {
     }
     verticesConstruidos.add(vertice);
   }
-
+  public void agregarVertice(VerticeModel vertice) {
+    this.vertices.add(vertice);
+  }
   private void notificarVertices(Recurso recurso) {
     for (VerticeConstruidoModel vertice : verticesConstruidos) {
       vertice.recibirRecurso(recurso);
