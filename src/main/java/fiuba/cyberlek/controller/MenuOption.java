@@ -1,9 +1,8 @@
 package fiuba.cyberlek.controller;
 
+import fiuba.cyberlek.model.Recurso;
 import java.util.Objects;
 import java.util.Optional;
-
-import fiuba.cyberlek.model.Recurso;
 
 public final class MenuOption implements MenuComponent {
   private final String nombre;

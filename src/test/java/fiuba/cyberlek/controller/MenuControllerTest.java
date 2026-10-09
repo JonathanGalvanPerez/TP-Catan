@@ -2,14 +2,12 @@ package fiuba.cyberlek.controller;
 
 import static org.junit.Assert.assertEquals;
 
+import fiuba.cyberlek.model.Recurso;
 import java.lang.reflect.Proxy;
 import java.util.Arrays;
 import java.util.Iterator;
-
 import org.jline.reader.LineReader;
 import org.junit.Test;
-
-import fiuba.cyberlek.model.Recurso;
 
 public class MenuControllerTest {
   @Test
