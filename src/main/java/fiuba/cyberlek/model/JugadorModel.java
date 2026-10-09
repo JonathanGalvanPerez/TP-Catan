@@ -12,6 +12,7 @@ public class JugadorModel {
 
   private final String nombre;
   private int puntosVictoria = 0;
+  private boolean eliminado = false;
   private final Map<Recurso, Integer> recursos = new EnumMap<>(Recurso.class);
 
   public JugadorModel(String nombre) {
@@ -114,6 +115,18 @@ public class JugadorModel {
 
   public int totalCartas() {
     return recursos.values().stream().mapToInt(Integer::intValue).sum();
+  }
+
+  public int getPuntosVictoria() {
+    return puntosVictoria;
+  }
+
+  public boolean estaEliminado() {
+    return eliminado;
+  }
+
+  public void eliminar() {
+    this.eliminado = true;
   }
 
   /**

@@ -31,7 +31,6 @@ public class RandomizadorModel {
   // elegir al azar de una lista
   public <T> Optional<T> elegirAlAzar(List<T> opciones) {
     if (opciones.isEmpty()) return Optional.empty();
-
     return Optional.of(opciones.get(random.nextInt(opciones.size())));
   }
 
