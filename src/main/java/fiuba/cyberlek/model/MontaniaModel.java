@@ -3,7 +3,7 @@ package fiuba.cyberlek.model;
 public class MontaniaModel implements TerrenoModel {
 
   @Override
-  public Recurso generarRecurso() {
+  public Recurso recursoQueProduce() {
     return Recurso.MINERAL;
   }
 }

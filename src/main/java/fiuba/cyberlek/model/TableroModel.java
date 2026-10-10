@@ -1,9 +1,12 @@
 package fiuba.cyberlek.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 public class TableroModel {
@@ -15,6 +18,7 @@ public class TableroModel {
 
   public TableroModel(int dimensioNX, int dimensionY, List<JugadorModel> jugadores) {
     this.grafo = new GrafoBuilderModel(dimensioNX, dimensionY).CrearGrafo();
+    this.Casilleros = new ArrayList<>();
     this.construcciones = new HashMap<>();
     for (JugadorModel jugador : jugadores) {
       construcciones.put(jugador, new HashSet<>());
@@ -123,12 +127,20 @@ public class TableroModel {
   // public void destruirCamino(String posicionArista) {}
 
   public void crearAldea(String posicionVertice, JugadorModel jugador) {
+    VerticeModel vertice = grafo.obtenerVertice(posicionVertice);
+
+    if (vertice == null) {
+      throw new IllegalArgumentException("No existe vertice en esa posicion.");
+    }
+
+    if (construccionBloqueadaEnVertice(posicionVertice)) {
+      throw new IllegalStateException("Esa zona esta bloqueada por una tormenta.");
+    }
+
     if (!this.sustraerRecursos(jugador, "aldea")) {
       throw new IllegalStateException(
           "No se puede crear una aldea, no tienes los recursos suficientes");
     }
-
-    VerticeModel vertice = grafo.obtenerVertice(posicionVertice);
 
     if (!tieneDistanciaAceptada(vertice)) {
       throw new IllegalStateException(
@@ -154,7 +166,8 @@ public class TableroModel {
     Set<String> posiciones = this.construcciones.get(jugador);
     posiciones.add(posicionVertice);
     this.construcciones.put(jugador, posiciones);
-    // logica de suscribir el vertice a sus casillas
+
+    suscribirVerticeACasilleros(vertice);
   }
 
   public void crearAldeaInicial(String posicionVertice, JugadorModel jugador) {
@@ -162,6 +175,10 @@ public class TableroModel {
 
     if (vertice == null) {
       throw new IllegalArgumentException("No existe vertice en esa posicion.");
+    }
+
+    if (construccionBloqueadaEnVertice(posicionVertice)) {
+      throw new IllegalStateException("Esa zona esta bloqueada por una tormenta.");
     }
 
     if (!tieneDistanciaAceptada(vertice)) {
@@ -175,7 +192,7 @@ public class TableroModel {
     posiciones.add(posicionVertice);
     this.construcciones.put(jugador, posiciones);
 
-    // logica de suscribir el vertice a sus casillas
+    suscribirVerticeACasilleros(vertice);
   }
 
   private boolean tieneDistanciaAceptada(VerticeModel vertice) {
@@ -199,5 +216,131 @@ public class TableroModel {
     }
 
     return true;
+  }
+
+  public JugadorModel obtenerDuenioDeVertice(String posicionVertice) {
+    for (Map.Entry<JugadorModel, Set<String>> entrada : construcciones.entrySet()) {
+      if (entrada.getValue().contains(posicionVertice)) return entrada.getKey();
+    }
+    return null;
+  }
+
+  public List<CasilleroModel> getCasilleros() {
+    return List.copyOf(Casilleros);
+  }
+
+  public void agregarCasillero(CasilleroModel casillero) {
+    this.Casilleros.add(casillero);
+  }
+
+  public boolean construccionBloqueadaEnVertice(String posicionVertice) {
+    for (CasilleroModel casillero : Casilleros) {
+      if (!casillero.tieneConstruccionBloqueada()) continue;
+      for (VerticeModel vertice : casillero.getVertices()) {
+        if (vertice.getPosicion().equals(posicionVertice)) return true;
+      }
+    }
+    return false;
+  }
+
+  private void suscribirVerticeACasilleros(VerticeModel vertice) {
+    for (CasilleroModel casillero : Casilleros) {
+      for (VerticeModel verticeDelCasillero : casillero.getVertices()) {
+        if (verticeDelCasillero.equals(vertice)) {
+          casillero.suscribirVertice(vertice);
+        }
+      }
+    }
+  }
+
+  /**
+   * Devuelve los jugadores que tienen una construccion (Aldea o Ciudad) en algun vertice de la
+   * casilla indicada. Sin duplicados.
+   */
+  public List<JugadorModel> obtenerDueniosDeCasillero(CasilleroModel casillero) {
+    Set<JugadorModel> duenios = new LinkedHashSet<>();
+    for (VerticeModel vertice : casillero.getVertices()) {
+      if (!vertice.existeConstruccion()) continue;
+      JugadorModel duenio = obtenerDuenioDeVertice(vertice.getPosicion());
+      if (duenio != null) duenios.add(duenio);
+    }
+    return List.copyOf(duenios);
+  }
+
+  /**
+   * Aplica el efecto del Terremoto sobre un vertice: - Ciudad -> Aldea: el jugador pierde 1 PV. -
+   * Aldea -> sin construccion: el jugador pierde 1 PV y el vertice se desuscribe de sus casilleros
+   * para no recibir mas recursos.
+   */
+  public void aplicarTerremoto(String posicionVertice) {
+    VerticeModel vertice = grafo.obtenerVertice(posicionVertice);
+    if (vertice == null || !vertice.existeConstruccion()) return;
+
+    JugadorModel duenio = obtenerDuenioDeVertice(posicionVertice);
+    if (duenio == null) return;
+
+    vertice.degradarConstruccion();
+    duenio.asignarPuntoVictoria(-1);
+
+    if (!vertice.existeConstruccion()) {
+      // Aldea destruida: limpiamos registro del jugador y desuscribimos del casillero.
+      Set<String> posiciones = construcciones.get(duenio);
+      posiciones.remove(posicionVertice);
+      construcciones.put(duenio, posiciones);
+
+      for (CasilleroModel casillero : Casilleros) {
+        for (VerticeModel v : casillero.getVertices()) {
+          if (v.equals(vertice)) {
+            casillero.desuscribirVertice(vertice);
+          }
+        }
+      }
+    }
+  }
+
+  public List<Recurso> recursosProducibles() {
+    Set<Recurso> recursos = new LinkedHashSet<>();
+    for (CasilleroModel casillero : Casilleros) {
+      Recurso r = casillero.recursoQueProduce();
+      if (r != Recurso.NADA) {
+        recursos.add(r);
+      }
+    }
+    return List.copyOf(recursos);
+  }
+
+  /**
+   * Devuelve la unica casilla de Desierto del tablero (o vacio si aun no se cargo ninguna). La usa
+   * JuegoModel para ubicar al Saqueador al inicio.
+   */
+  public Optional<CasilleroModel> obtenerCasilleroDesierto() {
+    for (CasilleroModel casillero : Casilleros) {
+      if (casillero.recursoQueProduce() == Recurso.NADA) {
+        return Optional.of(casillero);
+      }
+    }
+    return Optional.empty();
+  }
+
+  public List<VerticeModel> verticesConConstruccionEn(List<CasilleroModel> casilleros) {
+    List<VerticeModel> vertices = new ArrayList<>();
+    for (CasilleroModel casillero : casilleros) {
+      for (VerticeModel vertice : casillero.getVertices()) {
+        if (vertice.existeConstruccion() && !vertices.contains(vertice)) {
+          vertices.add(vertice);
+        }
+      }
+    }
+    return vertices;
+  }
+
+  public List<CasilleroModel> casillerosQueProducen(Recurso recurso) {
+    List<CasilleroModel> resultado = new ArrayList<>();
+    for (CasilleroModel casillero : Casilleros) {
+      if (casillero.recursoQueProduce() == recurso) {
+        resultado.add(casillero);
+      }
+    }
+    return resultado;
   }
 }
