@@ -3,7 +3,7 @@ package fiuba.cyberlek.model;
 public class CultivoModel implements TerrenoModel {
 
   @Override
-  public Recurso generarRecurso() {
+  public Recurso recursoQueProduce() {
     return Recurso.TRIGO;
   }
 }

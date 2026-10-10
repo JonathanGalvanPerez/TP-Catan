@@ -1,5 +1,6 @@
 package fiuba.cyberlek.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -45,5 +46,18 @@ public class RandomizadorModel {
   @Override
   public String toString() {
     return cantidadDados + "d" + carasPorDado;
+  }
+
+  public <T> List<T> elegirVariosSinRepeticion(List<T> opciones, int cantidad) {
+    if (opciones == null || opciones.isEmpty() || cantidad <= 0) {
+      return List.of();
+    }
+    List<T> copia = new ArrayList<>(opciones);
+    List<T> elegidos = new ArrayList<>();
+    int n = Math.min(cantidad, copia.size());
+    for (int i = 0; i < n; i++) {
+      elegidos.add(copia.remove(random.nextInt(copia.size())));
+    }
+    return List.copyOf(elegidos);
   }
 }
