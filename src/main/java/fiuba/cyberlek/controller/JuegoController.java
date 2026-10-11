@@ -20,20 +20,53 @@ public class JuegoController {
     this.menuController = new MenuController(inputController);
     this.menuTurno = crearMenuTurno();
 
+    List<JugadorModel> jugadores = ingresarJugadores();
+    this.juego = new JuegoModel(jugadores);
+    this.juegoView = new JuegoView(juego);
+    prepararConstrucciones(jugadores);
+  }
+
+  public void iniciarJuego() {
+    while (!juego.termino()) {
+      jugarTurno();
+    }
+    System.out.println("El juego ha terminado.");
+  }
+
+  private List<JugadorModel> ingresarJugadores() {
+    List<JugadorModel> jugadores = new ArrayList<>();
     int cantidadDeJugadores =
         inputController.leerNumero("Ingrese la cantidad de jugadores (2-4): ");
-    List<JugadorModel> jugadores = new ArrayList<>();
     for (int i = 0; i < cantidadDeJugadores; i++) {
       String nombreJugador =
           inputController.leerTexto("Ingrese el nombre del jugador " + (i + 1) + ": ");
       JugadorModel jugador = new JugadorModel(nombreJugador);
       jugadores.add(jugador);
     }
-    this.juego = new JuegoModel(jugadores);
-    this.juegoView = new JuegoView(juego);
+    return jugadores;
   }
 
-  public void jugarTurno() {
+  private void prepararConstrucciones(List<JugadorModel> jugadores) {
+    for (int i = 0; i < jugadores.size() * 2; i++) {
+      JugadorModel jugador = jugadores.get(i);
+      System.out.println("Turno de " + jugador.getNombre());
+      String posicionAldea =
+          inputController.leerTexto(
+              "Ingrese el vertice donde desea construir la aldea inicial del jugador "
+                  + jugador.getNombre()
+                  + ": ");
+      juego.crearAldeaInicial(posicionAldea, jugador);
+
+      String posicionCamino =
+          inputController.leerTexto(
+              "Ingrese la arista donde desea construir el camino inicial del jugador "
+                  + jugador.getNombre()
+                  + ": ");
+      juego.crearCaminoInicial(posicionCamino, jugador);
+    }
+  }
+
+  private void jugarTurno() {
     boolean turnoTerminado = false;
     juego.iniciarTurno();
     juegoView.mostrarJuego();
@@ -41,16 +74,19 @@ public class JuegoController {
       MenuOption opcionSeleccionada = menuController.mostrarMenu(menuTurno);
       switch (opcionSeleccionada.getAccion()) {
         case CONSTRUIR_ALDEA:
-          inputController.leerNumero("Ingrese la posición para construir la aldea: ");
-          // Lógica para construir aldea
+          String posicionAldea =
+              inputController.leerTexto("Ingrese el vertice donde desea construir la aldea: ");
+          juego.crearAldea(posicionAldea);
           break;
         case CONSTRUIR_CIUDAD:
-          inputController.leerNumero("Ingrese la posición para construir la ciudad: ");
-          // Lógica para construir ciudad
+          String posicionCiudad =
+              inputController.leerTexto("Ingrese el vertice donde desea construir la ciudad: ");
+          juego.upgradear(posicionCiudad);
           break;
         case CONSTRUIR_CAMINO:
-          inputController.leerNumero("Ingrese la posición para construir el camino: ");
-          // Lógica para construir camino
+          String posicionCamino =
+              inputController.leerTexto("Ingrese la arista donde desea construir el camino: ");
+          juego.crearCamino(posicionCamino);
           break;
         case COMERCIAR:
           opcionSeleccionada.getRecurso().orElseThrow();

@@ -21,7 +21,9 @@ public class JugadorModel {
       throw new IllegalArgumentException("El nombre no puede estar vacio");
     }
     for (Recurso r : Recurso.values()) {
-      recursos.put(r, 0);
+      if (r != Recurso.NADA) {
+        recursos.put(r, 0);
+      }
     }
   }
 

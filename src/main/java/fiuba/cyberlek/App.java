@@ -7,8 +7,6 @@ import java.io.IOException;
 public class App {
   public static void main(String[] args) throws IOException {
     JuegoController juegoController = new JuegoController();
-    while (!juegoController.termino()) {
-      juegoController.jugarTurno();
-    }
+    juegoController.iniciarJuego();
   }
 }
