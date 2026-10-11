@@ -1,27 +1,38 @@
 package fiuba.cyberlek.model;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class AdministradorDeTurnosModel {
-    private List<JugadorModel> jugadores;
-    private int turno;
+  private final List<JugadorModel> jugadores;
+  private int turnoActual;
 
-    public AdministradorDeTurnosModel(List<JugadorModel> jugadores) {
-        this.jugadores = jugadores;
-        this.turno = 0;
+  public AdministradorDeTurnosModel(List<JugadorModel> jugadores) {
+    this.jugadores = new ArrayList<>(Objects.requireNonNull(jugadores));
+    this.turnoActual = 0;
+  }
+
+  public JugadorModel obtenerJugadorActual() {
+    while (!jugadores.isEmpty() && jugadores.get(turnoActual).estaEliminado()) {
+      jugadores.remove(turnoActual);
+      if (jugadores.isEmpty()) {
+        throw new IllegalStateException("No quedan jugadores activos.");
+      }
+      turnoActual %= jugadores.size();
     }
 
-    public JugadorModel obtenerJugadorActual() {
-        int indice = turno % jugadores.size();
-        JugadorModel jugador = jugadores.get(indice);
-        if (jugador.estaEliminado()) {
-            jugadores.remove(indice);
-            return obtenerJugadorActual();
-        }
-        return jugador;
+    if (jugadores.isEmpty()) {
+      throw new IllegalStateException("No quedan jugadores activos.");
     }
 
-    public void siguienteTurno() {
-        turno++;
+    return jugadores.get(turnoActual);
+  }
+
+  public void siguienteTurno() {
+    if (jugadores.isEmpty()) {
+      throw new IllegalStateException("No quedan jugadores activos.");
     }
+    turnoActual = (turnoActual + 1) % jugadores.size();
+  }
 }
