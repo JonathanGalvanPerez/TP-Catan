@@ -7,29 +7,25 @@ import fiuba.cyberlek.view.JuegoView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.jline.reader.LineReader;
-import org.jline.reader.LineReaderBuilder;
-import org.jline.terminal.Terminal;
-import org.jline.terminal.TerminalBuilder;
 
 public class JuegoController {
   private JuegoModel juego;
   private JuegoView juegoView;
-  private LineReader reader;
+  private InputController inputController;
   private MenuController menuController;
   private Menu menuTurno;
 
   public JuegoController() throws IOException {
-    Terminal terminal = TerminalBuilder.terminal();
-    this.reader = LineReaderBuilder.builder().terminal(terminal).build();
-    this.menuController = new MenuController(reader);
+    this.inputController = new InputController();
+    this.menuController = new MenuController(inputController);
     this.menuTurno = crearMenuTurno();
 
     int cantidadDeJugadores =
-        Integer.parseInt(reader.readLine("Ingrese la cantidad de jugadores (2-4): "));
+        inputController.leerNumero("Ingrese la cantidad de jugadores (2-4): ");
     List<JugadorModel> jugadores = new ArrayList<>();
     for (int i = 0; i < cantidadDeJugadores; i++) {
-      String nombreJugador = reader.readLine("Ingrese el nombre del jugador " + (i + 1) + ": ");
+      String nombreJugador =
+          inputController.leerTexto("Ingrese el nombre del jugador " + (i + 1) + ": ");
       JugadorModel jugador = new JugadorModel(nombreJugador);
       jugadores.add(jugador);
     }
@@ -45,15 +41,15 @@ public class JuegoController {
       MenuOption opcionSeleccionada = menuController.mostrarMenu(menuTurno);
       switch (opcionSeleccionada.getAccion()) {
         case CONSTRUIR_ALDEA:
-          Integer.parseInt(reader.readLine("Ingrese la posición para construir la aldea: "));
+          inputController.leerNumero("Ingrese la posición para construir la aldea: ");
           // Lógica para construir aldea
           break;
         case CONSTRUIR_CIUDAD:
-          Integer.parseInt(reader.readLine("Ingrese la posición para construir la ciudad: "));
+          inputController.leerNumero("Ingrese la posición para construir la ciudad: ");
           // Lógica para construir ciudad
           break;
         case CONSTRUIR_CAMINO:
-          Integer.parseInt(reader.readLine("Ingrese la posición para construir el camino: "));
+          inputController.leerNumero("Ingrese la posición para construir el camino: ");
           // Lógica para construir camino
           break;
         case COMERCIAR:

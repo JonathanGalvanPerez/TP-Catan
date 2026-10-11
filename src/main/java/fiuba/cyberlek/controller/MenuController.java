@@ -1,12 +1,10 @@
 package fiuba.cyberlek.controller;
 
-import org.jline.reader.LineReader;
-
 public class MenuController {
-  private final LineReader reader;
+  private final InputController inputController;
 
-  public MenuController(LineReader reader) {
-    this.reader = reader;
+  public MenuController(InputController inputController) {
+    this.inputController = inputController;
   }
 
   public MenuOption mostrarMenu(Menu menu) {
@@ -25,26 +23,22 @@ public class MenuController {
       }
 
       int cantidadOpciones = componentes.size() + (permiteVolver ? 1 : 0);
-      String opcionSeleccionada =
-          reader.readLine("Seleccione una opción (1-" + cantidadOpciones + "): ");
-      try {
-        int indiceSeleccionado = Integer.parseInt(opcionSeleccionada) - 1;
-        if (indiceSeleccionado >= 0 && indiceSeleccionado < componentes.size()) {
-          MenuComponent componente = componentes.get(indiceSeleccionado);
-          if (componente instanceof Menu submenu) {
-            MenuOption opcion = mostrarMenu(submenu, true);
-            if (opcion != null) {
-              return opcion;
-            }
-            continue;
-          } else if (componente instanceof MenuOption opcion) {
-            System.out.println("Opción seleccionada: " + opcion.getNombre());
+      int indiceSeleccionado =
+          inputController.leerNumero("Seleccione una opción (1-" + cantidadOpciones + "): ") - 1;
+      if (indiceSeleccionado >= 0 && indiceSeleccionado < componentes.size()) {
+        MenuComponent componente = componentes.get(indiceSeleccionado);
+        if (componente instanceof Menu submenu) {
+          MenuOption opcion = mostrarMenu(submenu, true);
+          if (opcion != null) {
             return opcion;
           }
-        } else if (permiteVolver && indiceSeleccionado == componentes.size()) {
-          return null;
+          continue;
+        } else if (componente instanceof MenuOption opcion) {
+          System.out.println("Opción seleccionada: " + opcion.getNombre());
+          return opcion;
         }
-      } catch (NumberFormatException ignored) {
+      } else if (permiteVolver && indiceSeleccionado == componentes.size()) {
+        return null;
       }
 
       System.out.println("Opción inválida. Intente nuevamente.");
