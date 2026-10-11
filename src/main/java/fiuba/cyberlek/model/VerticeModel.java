@@ -26,14 +26,20 @@ public class VerticeModel implements VerticeConstruidoModel {
     return this.id;
   }
 
+  public Boolean existeConstruccion() {
+    return construccion != null;
+  }
+
   public String getPosicion() {
     return this.posicion;
   }
 
-  public void mejorarConstruccion() {
+  public Boolean mejorarConstruccion() {
     if (construccion != null) {
       this.construccion = construccion.mejorar();
+      return true;
     }
+    return false;
   }
 
   public void degradarConstruccion() {

@@ -36,6 +36,17 @@ public class JuegoController {
     this.juego = new JuegoModel(jugadores);
     this.juegoView = new JuegoView(juego);
   }
+    int cantidadDeJugadores =
+        Integer.parseInt(reader.readLine("Ingrese la cantidad de jugadores (2-4): "));
+    List<JugadorModel> jugadores = new ArrayList<>();
+    for (int i = 0; i < cantidadDeJugadores; i++) {
+      String nombreJugador = reader.readLine("Ingrese el nombre del jugador " + (i + 1) + ": ");
+      JugadorModel jugador = new JugadorModel(nombreJugador);
+      jugadores.add(jugador);
+    }
+    this.juego = new JuegoModel(jugadores);
+    this.juegoView = new JuegoView(juego);
+  }
 
   public void jugarTurno() {
     boolean turnoTerminado = false;
@@ -92,6 +103,9 @@ public class JuegoController {
         .agregar(new MenuOption("Rendirse", AccionMenu.RENDIRSE));
   }
 
+  public boolean termino() {
+    return juego.termino();
+  }
   public boolean termino() {
     return juego.termino();
   }

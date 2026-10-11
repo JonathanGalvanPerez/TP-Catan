@@ -7,16 +7,26 @@ public class AristaModel {
   private String posicion;
   private VerticeModel vertice1;
   private VerticeModel vertice2;
-  private ConstruccionModel camino;
+  private boolean camino;
 
   public AristaModel(String posicion, VerticeModel v1, VerticeModel v2) {
     this.posicion = posicion;
     this.vertice1 = v1;
     this.vertice2 = v2;
-    this.camino = null;
+    this.camino = false;
   }
 
-  // public void Construir(){}
+  public boolean estaConstruida() {
+    return this.camino;
+  }
+
+  public void destruirCamino() {
+    this.camino = false;
+  }
+
+  public void construirCamino() {
+    this.camino = true;
+  }
 
   public List<String> devolverVertices() {
     List<String> aux = new ArrayList<>();
@@ -27,9 +37,5 @@ public class AristaModel {
 
   public String getPosicion() {
     return this.posicion;
-  }
-
-  public boolean estaConstruida() {
-    return this.camino != null;
   }
 }

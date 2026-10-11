@@ -1,8 +1,7 @@
 package fiuba.cyberlek;
 
-import java.io.IOException;
-
 import fiuba.cyberlek.controller.JuegoController;
+import java.io.IOException;
 
 /** Hello world! */
 public class App {

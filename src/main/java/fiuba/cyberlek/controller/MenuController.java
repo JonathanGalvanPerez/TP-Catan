@@ -8,6 +8,9 @@ public class MenuController {
   public MenuController(LineReader reader) {
     this.reader = reader;
   }
+  public MenuController(LineReader reader) {
+    this.reader = reader;
+  }
 
   public MenuOption mostrarMenu(Menu menu) {
     return mostrarMenu(menu, false);
